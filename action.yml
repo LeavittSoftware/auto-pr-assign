@@ -5,7 +5,7 @@ inputs:
   token:
     description: "GitHub token"
     default: ${{ github.token }}
-    required: true
+    required: false
   org:
     description: "GitHub org"
     required: true
