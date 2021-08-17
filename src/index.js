@@ -55,16 +55,18 @@ const getTeammates = async (octokit, org, teamSlugs) => {
 const run = async () => {
   try {
     const token = getInput("token", { required: true });
+    const defaultToken = getInput("default-token", { required: true });
     const org = getInput("org", { required: true });
     const teams = getInput("production-teams", { required: true });
 
     if (context.eventName === "pull_request") {
-      const octokit = getOctokit(token);
-      var reviewers = await getTeammates(octokit, org, teams);
+      const octokitPriv = getOctokit(token);
+      const octokitStd = getOctokit(defaultToken);
+      var reviewers = await getTeammates(octokitPriv, org, teams);
       if (reviewers.length === 0) {
         console.log("Could not determine your teammates. Nothing to do.");
       } else {
-        await review(octokit, reviewers);
+        await review(octokitStd, reviewers);
       }
     } else {
       throw new Error("Sorry, this Action only works with pull requests.");

@@ -4,6 +4,9 @@ author: "@leavittsoftware"
 inputs:
   token:
     description: "GitHub token"
+    required: true
+  default-token:
+    description: "GitHub token"
     default: ${{ github.token }}
     required: false
   org:
