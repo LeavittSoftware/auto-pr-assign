@@ -4528,7 +4528,7 @@ const run = async () => {
     const teams = getInput("production-teams", { required: true });
 
     if (context.eventName === "pull_request") {
-      const octokit = getOctokit(token);
+      const octokit = getOctokit();
       var reviewers = await getTeammates(octokit, org, teams);
       if (reviewers.length === 0) {
         console.log("Could not determine your teammates. Nothing to do.");
