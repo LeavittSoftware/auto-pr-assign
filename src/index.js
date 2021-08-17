@@ -5,18 +5,24 @@ const { getInput, setFailed } = require("@actions/core");
  * Request PR review to given reviewers.
  *
  * @param {Octokit} octokit - Octokit instance
- * @param {string} reviewers - GitHub usernames
- * @param {string} teamReviewers - GitHub teams
+ * @param {Array} reviewers - GitHub usernames
  */
 const review = async (octokit, reviewers) => {
   try {
     const { owner, repo } = context.issue;
+    console.log(
+      JSON.stringify({
+        owner: owner,
+        repo: repo,
+        pull_number: context.payload.pull_request.number,
+        reviewers: reviewers.filter((x) => x !== context.actor) || undefined,
+      })
+    );
     await octokit.pulls.requestReviewers({
       owner: owner,
       repo: repo,
       pull_number: context.payload.pull_request.number,
-      reviewers:
-        reviewers.split(",").filter((x) => x !== context.actor) || undefined,
+      reviewers: reviewers.filter((x) => x !== context.actor) || undefined,
     });
   } catch (err) {
     throw new Error(`Couldn't request review.\n  Error: ${err}`);
