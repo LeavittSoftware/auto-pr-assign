@@ -1,0 +1,17 @@
+name: "Auto assign all team members to a PR"
+description: "Auto assign all team members to a PR"
+author: "@leavittsoftware"
+inputs:
+  token:
+    description: "GitHub token"
+    default: ${{ github.token }}
+    required: true
+  org:
+    description: "GitHub org"
+    required: true
+  production-teams:
+    description: "Slugs of active production teams"
+    required: false
+runs:
+  using: "node12"
+  main: "dist/index.js"
